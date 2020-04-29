@@ -1,4 +1,4 @@
-package mx.unam.ciencias.edd.proyecto1;
+package mx.unam.ciencias.edd.proyecto2;
 
 /**
  * Contiene el método main y se encarga de imprimir en pantalla el resultado y

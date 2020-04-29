@@ -1,4 +1,4 @@
-package mx.unam.ciencias.edd.proyecto1;
+package mx.unam.ciencias.edd.proyecto2;
 
 /**
  * Excepcion que se lanza cuando una bandera que debe recibir un argumento no lo
