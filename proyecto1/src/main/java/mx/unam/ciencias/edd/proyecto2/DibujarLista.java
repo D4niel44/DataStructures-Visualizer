@@ -30,15 +30,14 @@ public class DibujarLista<T> implements GraficableSVG {
         double anchoRectangulo = ancho / (2 * totalElementos + 1);
         double largoRectangulo = anchoRectangulo;
         int i = 1;
-        double anchoAux = anchoRectangulo;
         Iterator<T> iterador = lista.iterator();
         while (iterador.hasNext()) {
             T elemento = iterador.next();
-            svg.rectanguloConTexto(Pareja.crearPareja(anchoAux * i++, largoRectangulo), largoRectangulo,
+            svg.rectanguloConTexto(Pareja.crearPareja(anchoRectangulo * i++, largoRectangulo), largoRectangulo,
                     anchoRectangulo, ColorSVG.NEGRO, elemento.toString());
             if (iterador.hasNext())
-                svg.flechaDoble(Pareja.crearPareja(anchoAux * i++ + 2, largoRectangulo * 1.5),
-                        Pareja.crearPareja(anchoAux * i - 2, largoRectangulo * 1.5), ColorSVG.NEGRO);
+                svg.flechaDoble(Pareja.crearPareja(anchoRectangulo * i++ + 2, largoRectangulo * 1.5),
+                        Pareja.crearPareja(anchoRectangulo * i - 2, largoRectangulo * 1.5), ColorSVG.NEGRO);
         }
         svg.imprimirSVG();
     }

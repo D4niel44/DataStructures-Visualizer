@@ -21,10 +21,9 @@ public class DibujarPila<T> implements GraficableSVG {
         double largoRectangulo = largo / (elementos + 2);
         double anchoRectangulo = largoRectangulo;
         int i = 1;
-        double largoAux = largoRectangulo;
         while (!pila.esVacia()) {
             T elemento = pila.saca();
-            svg.rectanguloConTexto(Pareja.crearPareja(anchoRectangulo, largoAux * i++), largoRectangulo,
+            svg.rectanguloConTexto(Pareja.crearPareja(anchoRectangulo, largoRectangulo * i++), largoRectangulo,
                     anchoRectangulo, ColorSVG.NEGRO, elemento.toString());
         }
         svg.imprimirSVG();

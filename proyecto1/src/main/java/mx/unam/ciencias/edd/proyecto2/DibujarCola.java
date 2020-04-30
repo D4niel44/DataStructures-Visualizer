@@ -21,15 +21,14 @@ public class DibujarCola<T> implements GraficableSVG {
         double anchoRectangulo = ancho / (2 * elementos + 1);
         double largoRectangulo = anchoRectangulo;
         int i = 1;
-        double anchoAux = anchoRectangulo;
         svg.flechaSencilla(Pareja.crearPareja(5.0, largoRectangulo * 1.5),
-                    Pareja.crearPareja(anchoAux * i - 2, largoRectangulo * 1.5), ColorSVG.NEGRO);
+                    Pareja.crearPareja(anchoRectangulo * i - 2, largoRectangulo * 1.5), ColorSVG.NEGRO);
         while (!cola.esVacia()) {
             T elemento = cola.saca();
-            svg.rectanguloConTexto(Pareja.crearPareja(anchoAux * i++, largoRectangulo), largoRectangulo,
+            svg.rectanguloConTexto(Pareja.crearPareja(anchoRectangulo * i++, largoRectangulo), largoRectangulo,
                     anchoRectangulo, ColorSVG.NEGRO, elemento.toString());
-            svg.flechaSencilla(Pareja.crearPareja(anchoAux * i++ + 2, largoRectangulo * 1.5),
-                    Pareja.crearPareja(anchoAux * i - 2, largoRectangulo * 1.5), ColorSVG.NEGRO);
+            svg.flechaSencilla(Pareja.crearPareja(anchoRectangulo * i++ + 2, largoRectangulo * 1.5),
+                    Pareja.crearPareja(anchoRectangulo * i - 2, largoRectangulo * 1.5), ColorSVG.NEGRO);
         }
         svg.imprimirSVG();
     }
