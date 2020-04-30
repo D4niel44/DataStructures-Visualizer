@@ -22,13 +22,16 @@ public class DibujarMonticuloMinimo<T extends ComparableIndexable<T>> implements
         for (T elemento : monticulo) {
             svg.rectanguloConTexto(Pareja.crearPareja(anchoRectangulo * i, largoRectangulo), largoRectangulo,
                     anchoRectangulo, ColorSVG.NEGRO, elemento.toString());
-            if (elemento.getIndice() * 2 + 1 >= totalElementos)
+            if (elemento.getIndice() * 2 + 1 >= totalElementos) {
+                i++;
                 continue;
+            }
             double xInicial = anchoRectangulo * i * 1.5;
             svg.flechaCurva(Pareja.crearPareja(xInicial + 2, largoRectangulo - 2),
                     Pareja.crearPareja(xInicial + 2 + anchoRectangulo * i, largoRectangulo - 2),
                     Pareja.crearPareja(xInicial + 2 + (anchoRectangulo * i) / 2, 1 / 2 * largoRectangulo),
                     ColorSVG.NEGRO);
+            i++;
             if (elemento.getIndice() * 2 + 2 >= totalElementos)
                 continue;
             svg.flechaCurva(Pareja.crearPareja(xInicial + 2, largoRectangulo * 2 + 2),
