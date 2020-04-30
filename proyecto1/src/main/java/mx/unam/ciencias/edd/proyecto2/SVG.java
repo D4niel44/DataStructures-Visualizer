@@ -64,9 +64,10 @@ public class SVG {
 
     /**
      * Agrega un rectángulo al SVG.
-     * @param punto Punto de referencia del rectángulo
-     * @param largo Largo del rectángulo.
-     * @param ancho Ancho del rectángulo.
+     * 
+     * @param punto      Punto de referencia del rectángulo
+     * @param largo      Largo del rectángulo.
+     * @param ancho      Ancho del rectángulo.
      * @param colorLinea Color de la línea del rectángulo.
      */
     public void rectangulo(Pareja<Double, Double> punto, double largo, double ancho, ColorSVG colorLinea) {
@@ -76,53 +77,77 @@ public class SVG {
 
     /**
      * Añade una flecha sencilla al SVG.
+     * 
      * @param punto1 Primer punto de la flecha.
      * @param punto2 Segundo punto de la flecha.
-     * @param color Color de la flecha.
+     * @param color  Color de la flecha.
      */
     public void flechaSencilla(Pareja<Double, Double> punto1, Pareja<Double, Double> punto2, ColorSVG color) {
         linea(punto1, punto2, color);
-        linea(punto2, Pareja.crearPareja(punto2.getX() - 2 , punto1.getY() + 2), color);
-        linea(punto2, Pareja.crearPareja(punto2.getX() - 2 , punto1.getY() - 2), color);
+        linea(punto2, Pareja.crearPareja(punto2.getX() - 2, punto1.getY() + 2), color);
+        linea(punto2, Pareja.crearPareja(punto2.getX() - 2, punto1.getY() - 2), color);
     }
 
     /**
      * Añade una flecha Doble al SVG.
+     * 
      * @param punto1 Primer punto de la flecha.
      * @param punto2 Segundo punto de la flecha.
-     * @param color Color de la flecha.
+     * @param color  Color de la flecha.
      */
     public void flechaDoble(Pareja<Double, Double> punto1, Pareja<Double, Double> punto2, ColorSVG color) {
         flechaSencilla(punto1, punto2, color);
-        linea(punto1, Pareja.crearPareja(punto1.getX() + 2 , punto1.getY() + 2), color);
-        linea(punto1, Pareja.crearPareja(punto1.getX() + 2 , punto1.getY() - 2), color);
+        linea(punto1, Pareja.crearPareja(punto1.getX() + 2, punto1.getY() + 2), color);
+        linea(punto1, Pareja.crearPareja(punto1.getX() + 2, punto1.getY() - 2), color);
     }
 
     /**
-     * Añade un rectángulo con texto adentro al SVG. Las dimensiones del texto están dadas en relación a las del rectángulo.
-     * @param punto Punto de inicio del rectángulo.
-     * @param largo Largo del rectángulo.
-     * @param ancho Ancho del rectángulo.
+     * Añade un rectángulo con texto adentro al SVG. Las dimensiones del texto están
+     * dadas en relación a las del rectángulo.
+     * 
+     * @param punto      Punto de inicio del rectángulo.
+     * @param largo      Largo del rectángulo.
+     * @param ancho      Ancho del rectángulo.
      * @param colorLinea Color de las líneas del rectángulo y del texto.
-     * @param texto texto que contiene el rectángulo.
+     * @param texto      texto que contiene el rectángulo.
      */
-    public void rectanguloConTexto(Pareja<Double, Double> punto, double largo, double ancho, ColorSVG colorLinea, String texto) {
+    public void rectanguloConTexto(Pareja<Double, Double> punto, double largo, double ancho, ColorSVG colorLinea,
+            String texto) {
         rectangulo(punto, largo, ancho, colorLinea);
-        texto(Pareja.crearPareja(punto.getX() + (ancho / 2), punto.getY() + (largo / 2)), colorLinea, largo * 4 / 5, texto);
+        texto(Pareja.crearPareja(punto.getX() + (ancho / 2), punto.getY() + (largo / 2)), colorLinea, largo * 4 / 5,
+                texto);
     }
-    
+
     /**
      * Añade un círculo que contiene texto en su interior al svg.
-     * @param punto Punto del centro del círculo.
-     * @param radio Radio del círculo.
-     * @param colorLinea Color de la circunsferencia.
+     * 
+     * @param punto        Punto del centro del círculo.
+     * @param radio        Radio del círculo.
+     * @param colorLinea   Color de la circunsferencia.
      * @param colorRelleno Color de relleno del círculo.
-     * @param colorTexto Color del texto
-     * @param texto Texto que contiene el círculo.
+     * @param colorTexto   Color del texto
+     * @param texto        Texto que contiene el círculo.
      */
-    public void circuloConTexto(Pareja<Double, Double> punto, double radio, ColorSVG colorLinea, ColorSVG colorRelleno, ColorSVG colorTexto, String texto) {
+    public void circuloConTexto(Pareja<Double, Double> punto, double radio, ColorSVG colorLinea, ColorSVG colorRelleno,
+            ColorSVG colorTexto, String texto) {
         circulo(punto, radio, colorLinea, colorRelleno);
         texto(Pareja.crearPareja(punto.getX(), punto.getY() + (radio / 2)), colorTexto, radio, texto);
+    }
+
+    /**
+     * Añade un flecha curvada al SVG.
+     * 
+     * @param punto1          Punto inicial de la flecha.
+     * @param punto2          Punto final de la flecha.
+     * @param puntoReferencia Punto de referencia para la curvatura de la flecha.
+     * @param color           Color de la flecha.
+     */
+    public void flechaCurva(Pareja<Double, Double> punto1, Pareja<Double, Double> punto2,
+            Pareja<Double, Double> puntoReferencia, ColorSVG color) {
+        svg.append(String.format("    <path d='M %.2f %.2f Q %.2f %.2f %.2f %.2f' stroke='%s'/>", punto1.getX(),
+                punto1.getY(), puntoReferencia.getX(), puntoReferencia.getY(), punto2.getX(), punto2.getY(), color));
+        linea(punto2, Pareja.crearPareja(punto1.getX(), (puntoReferencia.getY() >= punto2.getY()) ? punto2.getY() - 2 : punto2.getY() + 2), color);
+        linea(Pareja.crearPareja(punto2.getX() - 2, punto2.getY()), punto2, color);
     }
 
     /**

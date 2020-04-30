@@ -9,5 +9,5 @@ public interface GraficableSVG {
     /**
      * Método que provee una representación gráfica como un SVG de la clase.
      */
-    public void graficarSVG();
+    public void graficarSVG(double largo, double ancho);
 }

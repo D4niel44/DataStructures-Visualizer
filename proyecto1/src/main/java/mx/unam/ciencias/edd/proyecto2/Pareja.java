@@ -32,6 +32,22 @@ public class Pareja<S, T> {
     }
 
     /**
+     * Establece un nuevo valor para el primer elemento de la tupla.
+     * @param x nuevo elemento
+     */
+    public void setX(S x) {
+        this.x = x;
+    }
+
+    /**
+     * Establece un nuevo valor para el segundo elemento de la tupla.
+     * @param y nuevo elemento
+     */ 
+    public void setY(T y) {
+        this.y = y;
+    }
+    
+    /**
      * Regresa el primer elemento.
      * @return el primer elemento de la pareja.
      */
