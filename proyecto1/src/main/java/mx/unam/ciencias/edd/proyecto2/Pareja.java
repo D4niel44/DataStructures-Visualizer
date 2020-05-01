@@ -63,6 +63,19 @@ public class Pareja<S, T> {
         return y;
     }
 
+    /**
+     * Regresa una representación en cadena de la Pareja.
+     * @return Una representación en cadena de la pareja.
+     */
+    @Override
+    public String toString() {
+        return String.format("(%s, %s)", x.toString(), y.toString());
+    }
+
+    /**
+     * Determina si dos parejas son iguales.
+     * @param objeto Pareja a comparar.
+     */
     @Override
     public boolean equals(Object objeto) {
         if (objeto == null || getClass() != objeto.getClass())

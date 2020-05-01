@@ -15,8 +15,7 @@ public class App {
             Graficador app = new Graficador(args);
             app.ejecutar();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
+            System.err.println(e.getMessage());
         }
     }
 }

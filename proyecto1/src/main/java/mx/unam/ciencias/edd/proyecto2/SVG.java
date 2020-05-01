@@ -18,7 +18,7 @@ public class SVG {
         this.largo = largo;
         this.ancho = ancho;
         svg = new StringBuilder(String.format(
-                "<?xml version='1.0' encoding='UTF-8' ?>\n<svg width='%.2f' height='%.2f'>\n  <g>", ancho, largo));
+                "<?xml version='1.0' encoding='UTF-8' ?>\n<svg width='%.2f' height='%.2f' xmlns='http://www.w3.org/2000/svg'>\n  <g>", ancho, largo));
     }
 
     /**
@@ -29,7 +29,7 @@ public class SVG {
      * @return representación SVG de una línea.
      */
     public void linea(Pareja<Double, Double> punto1, Pareja<Double, Double> punto2, ColorSVG color) {
-        svg.append(String.format("    <line x1='%.2f' y1='%.2f' x2='%.2f' y2='%.2f' stroke='%s' stroke-width='2' />\n",
+        svg.append(String.format("    <line x1='%.2f' y1='%.2f' x2='%.2f' y2='%.2f' stroke='%s' stroke-width='1' />\n",
                 punto1.getX(), punto1.getY(), punto2.getX(), punto2.getY(), color.getValor()));
     }
 
@@ -58,7 +58,7 @@ public class SVG {
      */
     public void texto(Pareja<Double, Double> punto, ColorSVG colorRelleno, double tamanio, String texto) {
         svg.append(String.format(
-                "    <text fill='%s' font-family='sans-serif' font-size='%.2f' x='.2fd' y='%.2f' text-anchor='middle'>%s</text>\n",
+                "    <text fill='%s' font-family='sans-serif' font-size='%.2f' x='%.2f' y='%.2f' text-anchor='middle'>%s</text>\n",
                 colorRelleno.getValor(), tamanio, punto.getX(), punto.getY(), texto));
     }
 
@@ -71,7 +71,7 @@ public class SVG {
      * @param colorLinea Color de la línea del rectángulo.
      */
     public void rectangulo(Pareja<Double, Double> punto, double largo, double ancho, ColorSVG colorLinea) {
-        svg.append(String.format("<rect x='%.2f' y='%.2f' width='%.2f' height='%.2f' stroke='%s' stroke-width='2'/>",
+        svg.append(String.format("<rect x='%.2f' y='%.2f' width='%.2f' height='%.2f' stroke='%s' fill='white' stroke-width='1'/>\n",
                 punto.getX(), punto.getY(), ancho, largo, colorLinea.getValor()));
     }
 
@@ -114,7 +114,7 @@ public class SVG {
     public void rectanguloConTexto(Pareja<Double, Double> punto, double largo, double ancho, ColorSVG colorLinea,
             String texto) {
         rectangulo(punto, largo, ancho, colorLinea);
-        texto(Pareja.crearPareja(punto.getX() + (ancho / 2), punto.getY() + (largo / 2)), colorLinea, largo * 4 / 5,
+        texto(Pareja.crearPareja(punto.getX() + (ancho / 2), punto.getY() + (largo * 3/5)), colorLinea, largo * 3 / 5,
                 texto);
     }
 

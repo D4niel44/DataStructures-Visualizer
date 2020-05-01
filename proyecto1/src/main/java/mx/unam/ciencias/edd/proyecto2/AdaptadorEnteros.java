@@ -49,4 +49,12 @@ public class AdaptadorEnteros implements ComparableIndexable<AdaptadorEnteros> {
         this.indice = indice;
     }
 
+    /**
+     * Regresa una cadena con la representacion del entero.
+     */
+    @Override
+    public String toString() {
+        return Integer.toString(elemento);
+    }
+
 }
