@@ -12,10 +12,11 @@ public class App {
      */
     public static void main(String[] args) {
         try {
-            Sort app = new Sort(args);
+            Graficador app = new Graficador(args);
             app.ejecutar();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            System.exit(1);
         }
     }
 }
