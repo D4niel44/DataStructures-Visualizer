@@ -6,7 +6,7 @@ import mx.unam.ciencias.edd.Color;
 import mx.unam.ciencias.edd.VerticeGrafica;
 import java.util.Iterator;
 
-public class DibujarGrafica<T> implements GraficableSVG {
+public class DibujarGrafica<T> implements GraficableSVG<T> {
 
     private Grafica<Pareja<T, Pareja<Double, Double>>> grafica;
 

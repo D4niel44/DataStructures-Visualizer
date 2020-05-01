@@ -3,7 +3,7 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.ArbolBinario;
 import mx.unam.ciencias.edd.VerticeArbolBinario;
 
-public abstract class DibujarArbolBinario<T> implements GraficableSVG {
+public abstract class DibujarArbolBinario<T> implements GraficableSVG<T> {
 
     protected ArbolBinario<T> arbolBinario;
 

@@ -3,7 +3,7 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.Pila;
 import mx.unam.ciencias.edd.Coleccion;
 
-public class DibujarPila<T> implements GraficableSVG {
+public class DibujarPila<T> implements GraficableSVG<T> {
     
     private Pila<T> pila;
     private int elementos;

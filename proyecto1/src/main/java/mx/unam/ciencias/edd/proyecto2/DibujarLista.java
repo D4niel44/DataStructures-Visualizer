@@ -3,7 +3,7 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.Lista;
 import java.util.Iterator;
 
-public class DibujarLista<T> implements GraficableSVG {
+public class DibujarLista<T> implements GraficableSVG<T> {
 
     private Lista<T> lista;
 
