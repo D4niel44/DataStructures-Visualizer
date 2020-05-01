@@ -62,4 +62,13 @@ public class Pareja<S, T> {
     public T getY() {
         return y;
     }
+
+    @Override
+    public boolean equals(Object objeto) {
+        if (objeto == null || getClass() != objeto.getClass())
+            return false;
+        @SuppressWarnings("unchecked")
+        Pareja<S, T> otro = (Pareja<S, T>) objeto;
+        return this.x.equals(otro.x) && this.y.equals(otro.y);
+    }
 }
