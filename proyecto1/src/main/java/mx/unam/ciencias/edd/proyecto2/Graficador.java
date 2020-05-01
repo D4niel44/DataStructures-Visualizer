@@ -16,8 +16,8 @@ public class Graficador {
     private String claseGraficar;
 
     public Graficador(String[] args) {
-        if (args.length > 1) {
-            /* excepcion argumentos no validos. */}
+        if (args.length > 1)
+            throw new ExcepcionArgumentoInvalido("El programa solo recibe un argumento.");
         elementos = new Lista<Integer>();
         claseGraficar = null;
         leerArchivo((args.length == 0) ? null : args[0]);
@@ -34,26 +34,26 @@ public class Graficador {
             case "Lista":
                 estructura = new DibujarLista<>(elementos);
                 largo = 150;
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 50, 10000);
                 break;
             case "Cola":
                 estructura = new DibujarCola<>(elementos);
                 largo = 150;
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 50, 10000);
                 break;
             case "Pila":
                 estructura = new DibujarPila<>(elementos);
-                largo = Math.min(elementos.getElementos() * 50, 1000);
+                largo = Math.min(elementos.getElementos() * 50, 10000);
                 ancho = 150;
                 break;
             case "ArbolBinarioOrdenado":
                 estructura = new DibujarArbolBinarioOrdenado<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 50, 10000);
                 largo = ancho;
                 break;
             case "ArbolBinarioCompleto":
                 estructura = new DibujarArbolBinarioCompleto<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 50, 10000);
                 largo = ancho;
                 break;
             case "ArbolRojinegro":
@@ -63,14 +63,14 @@ public class Graficador {
                 break;
             case "ArbolAVL":
                 estructura = new DibujarArbolAVL<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 50, 10000);
                 largo = ancho;
                 break;
             case "Grafica":
                 if (elementos.getElementos() % 2 != 0)
                     throw new ExcepcionArgumentoInvalido("Las gráficas deben recibir un número par de elementos.");
                 estructura = new DibujarGrafica<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 25, 1000);
                 largo = ancho;
                 break;
             case "MonticuloMinimo":
@@ -78,7 +78,7 @@ public class Graficador {
                 for (Integer elemento : elementos)
                     coleccion.agrega(new AdaptadorEnteros(elemento));
                 estructura = new DibujarMonticuloMinimo<>(coleccion);
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
+                ancho = Math.min(elementos.getElementos() * 50, 10000);
                 largo = ancho;
                 break;
             default:
@@ -148,7 +148,8 @@ public class Graficador {
                         bool = false;
                     else if (Character.isWhitespace(c) || c == 0x0023)
                         break;
-                    cadena.append((char) c);
+                    else
+                        cadena.append((char) c);
                 }
                 if (claseGraficar == null)
                     claseGraficar = cadena.toString();
@@ -156,7 +157,7 @@ public class Graficador {
                     try {
                         elementos.agregaFinal(Integer.parseInt(cadena.toString()));
                     } catch (NumberFormatException e) {
-                        // Excepcion cadena no valida.
+                        throw new ExcepcionArgumentoInvalido("La cadena: " + cadena.toString() + " no es un entero válido.");
                     }
             }
         } while (bool);

@@ -39,21 +39,21 @@ public class DibujarGrafica<T> implements GraficableSVG {
         for (Pareja<T, Pareja<Double, Double>> elemento : grafica) {
             Pareja<Double, Double> puntoVertice = elemento.getY();
             VerticeGrafica<Pareja<T, Pareja<Double, Double>>> vertice = grafica.vertice(elemento);
-            if (vertice.getColor() != Color.NEGRO) {
-                grafica.setColor(vertice, Color.NEGRO);
+            if (puntoVertice.getX() == 0.0)
                 cambiarPunto(puntoVertice, largo, ancho, diametroM, angulo, i++);
-            }
+            if (vertice.getColor() != Color.NEGRO)
+                grafica.setColor(vertice, Color.NEGRO);
             for (VerticeGrafica<Pareja<T, Pareja<Double, Double>>> vecino : vertice.vecinos()) {
                 Pareja<Double, Double> puntoVecino = vecino.get().getY();
-                if (vecino.getColor() != Color.NEGRO) {
-                    grafica.setColor(vecino, Color.NEGRO);
+                if (puntoVecino.getX() == 0.0)
                     cambiarPunto(puntoVecino, largo, ancho, diametroM, angulo, i++);
+                if (vecino.getColor() != Color.NEGRO)
                     svg.linea(puntoVertice, puntoVecino, ColorSVG.NEGRO);
-                }
             }
             svg.circuloConTexto(puntoVertice, radioVertice, ColorSVG.NEGRO, ColorSVG.BLANCO, ColorSVG.NEGRO,
                     elemento.getX().toString());
         }
+        svg.imprimirSVG();
     }
 
     private void cambiarPunto(Pareja<Double, Double> punto, double largo, double ancho, double diametro, double angulo,

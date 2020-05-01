@@ -14,19 +14,8 @@ public class DibujarArbolRojinegro<T extends Comparable<T>> extends DibujarArbol
     
     @Override
     protected void graficarAuxiliar(VerticeArbolBinario<T> vertice, Pareja<Double, Double> puntoVertice, SVG svg,
-            double radio) {
-        if (vertice.hayIzquierdo()) {
-            Pareja<Double, Double> izquierdo = Pareja.crearPareja(puntoVertice.getX() / 2,
-                    puntoVertice.getY() + (radio * 2));
-            svg.linea(puntoVertice, izquierdo, ColorSVG.NEGRO);
-            graficarAuxiliar(vertice.izquierdo(), izquierdo, svg, radio);
-        }
-        if (vertice.hayDerecho()) {
-            Pareja<Double, Double> derecho = Pareja.crearPareja(puntoVertice.getX() * 1.5,
-                    puntoVertice.getY() + (radio * 2));
-            svg.linea(puntoVertice, derecho, ColorSVG.NEGRO);
-            graficarAuxiliar(vertice.izquierdo(), derecho, svg, radio);
-        }
+            double radio, double incremento) {
+        graficarAristas(vertice, puntoVertice, svg, radio, incremento);
         svg.circuloConTexto(puntoVertice, radio, ColorSVG.NEGRO,
                 colorToColorSVG(((ArbolRojinegro<T>) arbolBinario).getColor(vertice)), ColorSVG.BLANCO,
                 vertice.get().toString());
