@@ -1,0 +1,62 @@
+package mx.unam.ciencias.edd.proyecto2;
+
+import mx.unam.ciencias.edd.Coleccion;
+import mx.unam.ciencias.edd.Grafica;
+import mx.unam.ciencias.edd.Color;
+import mx.unam.ciencias.edd.VerticeGrafica;
+
+public class DibujarGrafica<T> implements GraficableSVG {
+
+    private Grafica<Pareja<T, Pareja<Double, Double>>> grafica;
+
+    public DibujarGrafica(Coleccion<Pareja<T, T>> coleccion) {
+        grafica = new Grafica<>();
+        for (Pareja<T, T> elemento : coleccion) {
+            Pareja<Double, Double> aux = Pareja.crearPareja(0.0, 0.0);
+            Pareja<T, Pareja<Double, Double>> primerElemento = Pareja.crearPareja(elemento.getX(), aux);
+            if (!grafica.contiene(primerElemento))
+                grafica.agrega(primerElemento);
+            Pareja<Double, Double> aux2 = Pareja.crearPareja(0.0, 0.0);
+            Pareja<T, Pareja<Double, Double>> segundoElemento = Pareja.crearPareja(elemento.getY(), aux2);
+            if (primerElemento.equals(segundoElemento))
+                continue;
+            if (!grafica.contiene(segundoElemento))
+                grafica.agrega(segundoElemento);
+            if (!grafica.sonVecinos(primerElemento, segundoElemento))
+                grafica.conecta(primerElemento, segundoElemento);
+        }
+    }
+
+    @Override
+    public void graficarSVG(double largo, double ancho) {
+        SVG svg = new SVG(largo, ancho);
+        double diametroM = Math.min(largo - 20, ancho - 20);
+        double radioVertice = Math.min(15, Math.PI * diametroM / (grafica.getElementos() * 2.6));
+        double angulo = (2 * Math.PI) / grafica.getElementos();
+        int i = 0;
+        for (Pareja<T, Pareja<Double, Double>> elemento : grafica) {
+            Pareja<Double, Double> puntoVertice = elemento.getY();
+            VerticeGrafica<Pareja<T, Pareja<Double, Double>>> vertice = grafica.vertice(elemento);
+            if (vertice.getColor() != Color.NEGRO) {
+                grafica.setColor(vertice, Color.NEGRO);
+                cambiarPunto(puntoVertice, largo, ancho, diametroM, angulo, i++);
+            }
+            for (VerticeGrafica<Pareja<T, Pareja<Double, Double>>> vecino : vertice.vecinos()) {
+                Pareja<Double, Double> puntoVecino = vecino.get().getY();
+                if (vecino.getColor() != Color.NEGRO) {
+                    grafica.setColor(vecino, Color.NEGRO);
+                    cambiarPunto(puntoVecino, largo, ancho, diametroM, angulo, i++);
+                    svg.linea(puntoVertice, puntoVecino, ColorSVG.NEGRO);
+                }
+            }
+            svg.circuloConTexto(puntoVertice, radioVertice, ColorSVG.NEGRO, ColorSVG.BLANCO, ColorSVG.NEGRO,
+                    elemento.getX().toString());
+        }
+    }
+
+    private void cambiarPunto(Pareja<Double, Double> punto, double largo, double ancho, double diametro, double angulo,
+            int i) {
+        punto.setX((ancho / 2) + ((diametro / 2) * Math.cos(angulo * i)));
+        punto.setY((largo / 2) + ((diametro / 2) * Math.sin(angulo * i)));
+    }
+}
