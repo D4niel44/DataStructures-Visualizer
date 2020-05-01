@@ -4,20 +4,22 @@ import mx.unam.ciencias.edd.Coleccion;
 import mx.unam.ciencias.edd.Grafica;
 import mx.unam.ciencias.edd.Color;
 import mx.unam.ciencias.edd.VerticeGrafica;
+import java.util.Iterator;
 
 public class DibujarGrafica<T> implements GraficableSVG {
 
     private Grafica<Pareja<T, Pareja<Double, Double>>> grafica;
 
-    public DibujarGrafica(Coleccion<Pareja<T, T>> coleccion) {
+    public DibujarGrafica(Coleccion<T> coleccion) {
         grafica = new Grafica<>();
-        for (Pareja<T, T> elemento : coleccion) {
+        Iterator<T> iterador = coleccion.iterator();
+        while (iterador.hasNext()) {
             Pareja<Double, Double> aux = Pareja.crearPareja(0.0, 0.0);
-            Pareja<T, Pareja<Double, Double>> primerElemento = Pareja.crearPareja(elemento.getX(), aux);
+            Pareja<T, Pareja<Double, Double>> primerElemento = Pareja.crearPareja(iterador.next(), aux);
             if (!grafica.contiene(primerElemento))
                 grafica.agrega(primerElemento);
             Pareja<Double, Double> aux2 = Pareja.crearPareja(0.0, 0.0);
-            Pareja<T, Pareja<Double, Double>> segundoElemento = Pareja.crearPareja(elemento.getY(), aux2);
+            Pareja<T, Pareja<Double, Double>> segundoElemento = Pareja.crearPareja(iterador.next(), aux2);
             if (primerElemento.equals(segundoElemento))
                 continue;
             if (!grafica.contiene(segundoElemento))
