@@ -24,7 +24,6 @@ public class Graficador {
     }
 
     public void ejecutar() {
-        double largo = 0, ancho = 0;
         GraficableSVG estructura = null;
         if (claseGraficar == null)
             throw new ExcepcionArgumentoInvalido("No se ha especificado la estructura de Datos a graficar.");
@@ -32,59 +31,41 @@ public class Graficador {
             throw new ExcepcionArgumentoInvalido("La estructura a graficar debe tener elementos.");
         switch (claseGraficar) {
             case "Lista":
-                estructura = new DibujarLista<>(elementos);
-                largo = 150;
-                ancho = Math.min(elementos.getElementos() * 50, 10000);
+                estructura = new DibujarLista<Integer>(elementos);
                 break;
             case "Cola":
-                estructura = new DibujarCola<>(elementos);
-                largo = 150;
-                ancho = Math.min(elementos.getElementos() * 50, 10000);
+                estructura = new DibujarCola<Integer>(elementos);
                 break;
             case "Pila":
-                estructura = new DibujarPila<>(elementos);
-                largo = Math.min(elementos.getElementos() * 50, 10000);
-                ancho = 150;
+                estructura = new DibujarPila<Integer>(elementos);
                 break;
             case "ArbolBinarioOrdenado":
-                estructura = new DibujarArbolBinarioOrdenado<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 10000);
-                largo = ancho;
+                estructura = new DibujarArbolBinarioOrdenado<Integer>(elementos);
                 break;
             case "ArbolBinarioCompleto":
-                estructura = new DibujarArbolBinarioCompleto<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 10000);
-                largo = ancho;
+                estructura = new DibujarArbolBinarioCompleto<Integer>(elementos);
                 break;
             case "ArbolRojinegro":
-                estructura = new DibujarArbolRojinegro<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 1000);
-                largo = ancho;
+                estructura = new DibujarArbolRojinegro<Integer>(elementos);
                 break;
             case "ArbolAVL":
-                estructura = new DibujarArbolAVL<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 50, 10000);
-                largo = ancho;
+                estructura = new DibujarArbolAVL<Integer>(elementos);
                 break;
             case "Grafica":
                 if (elementos.getElementos() % 2 != 0)
                     throw new ExcepcionArgumentoInvalido("Las gráficas deben recibir un número par de elementos.");
-                estructura = new DibujarGrafica<>(elementos);
-                ancho = Math.min(elementos.getElementos() * 25, 1000);
-                largo = ancho;
+                estructura = new DibujarGrafica<Integer>(elementos);
                 break;
             case "MonticuloMinimo":
                 Coleccion<AdaptadorEnteros> coleccion = new Lista<>();
                 for (Integer elemento : elementos)
                     coleccion.agrega(new AdaptadorEnteros(elemento));
-                estructura = new DibujarMonticuloMinimo<>(coleccion);
-                ancho = Math.min(elementos.getElementos() * 50, 10000);
-                largo = ancho;
+                estructura = new DibujarMonticuloMinimo<AdaptadorEnteros>(coleccion);
                 break;
             default:
                 throw new ExcepcionArgumentoInvalido("La clase " + claseGraficar + " no es una clase válida.");
         }
-        estructura.graficarSVG(largo, ancho);
+        estructura.graficarSVG();
     }
 
     /**
