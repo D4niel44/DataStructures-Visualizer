@@ -10,11 +10,19 @@ import java.io.BufferedReader;
 import mx.unam.ciencias.edd.Lista;
 import mx.unam.ciencias.edd.Coleccion;
 
+/**
+ * Clase para graficar una estructura de Datos en formato SVG a partir de un archivo que contenga los elementos o de la entrada estánmdar.
+ */
 public class Graficador {
 
     private Lista<Integer> elementos;
     private String claseGraficar;
 
+    /**
+     * Lee el archivo o la entrada estándar y lo procesa.
+     * @param args Arreglo con el archivo a graficar, si tiene mas de un elemento se lanza una excepción
+     * 
+     */
     public Graficador(String[] args) {
         if (args.length > 1)
             throw new ExcepcionArgumentoInvalido("El programa solo recibe un argumento.");
@@ -23,6 +31,9 @@ public class Graficador {
         leerArchivo((args.length == 0) ? null : args[0]);
     }
 
+    /**
+     * Genera el SVG de la estructura y lo imprime en la salida estándar.
+     */
     public void ejecutar() {
         GraficableSVG estructura = null;
         if (claseGraficar == null)

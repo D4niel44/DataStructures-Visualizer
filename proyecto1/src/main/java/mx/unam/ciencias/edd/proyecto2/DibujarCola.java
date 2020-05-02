@@ -3,11 +3,19 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.Cola;
 import mx.unam.ciencias.edd.Coleccion;
 
+/**
+ * Clase para generar un SVG con la representación de una cola.
+ * @param <T> Tipo de la cola a dibujar.
+ */
 public class DibujarCola<T> implements GraficableSVG {
 
     private Cola<T> cola;
     private int elementos;
 
+    /**
+     * Crea una cola dibujable a partir de la coleccion pasada como parametro.
+     * @param coleccion
+     */
     public DibujarCola(Coleccion<T> coleccion) {
         cola = new Cola<T>();
         elementos = coleccion.getElementos();
@@ -15,6 +23,9 @@ public class DibujarCola<T> implements GraficableSVG {
             cola.mete(elemento);
     }
 
+    /**
+     * Genera un SVG que representa la cola.
+     */
     @Override
     public void graficarSVG() {
         double largo = 75;

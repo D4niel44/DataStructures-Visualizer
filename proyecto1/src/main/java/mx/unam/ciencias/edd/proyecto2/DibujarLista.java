@@ -3,6 +3,10 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.Lista;
 import java.util.Iterator;
 
+/**
+ * Clase para generar un SVG con al rerpesentación de una lista.
+ * @param <T> Tipo de la lista.
+ */
 public class DibujarLista<T> implements GraficableSVG {
 
     private Lista<T> lista;

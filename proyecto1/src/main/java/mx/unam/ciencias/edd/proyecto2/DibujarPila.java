@@ -3,11 +3,19 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.Pila;
 import mx.unam.ciencias.edd.Coleccion;
 
+/**
+ * Clase apara generar un SVG con la representación de una pila.
+ * @param <T> Tipo de la pila.
+ */
 public class DibujarPila<T> implements GraficableSVG {
     
     private Pila<T> pila;
     private int elementos;
     
+    /**
+     * Crea una pila a partir de la colección pasada com parámetro.
+     * @param coleccion Colección con los elementos de la pila.
+     */
     public DibujarPila(Coleccion<T> coleccion) {
         pila = new Pila<T>();
         elementos = coleccion.getElementos();
@@ -15,6 +23,9 @@ public class DibujarPila<T> implements GraficableSVG {
             pila.mete(elemento);
     }
 
+    /**
+     * Genera un SVG de la pila y lo imprime en la salida estándar.
+     */
     @Override
     public void graficarSVG() {
         double largo = elementos * 50 + 5;

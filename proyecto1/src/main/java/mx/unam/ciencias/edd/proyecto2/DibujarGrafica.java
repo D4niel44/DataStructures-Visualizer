@@ -6,10 +6,18 @@ import mx.unam.ciencias.edd.Color;
 import mx.unam.ciencias.edd.VerticeGrafica;
 import java.util.Iterator;
 
+/**
+ * Clase para dibujar gráficas y representarlas en formato SVG.
+ * @param <T> Tipo de la gráfica.
+ */
 public class DibujarGrafica<T> implements GraficableSVG {
 
     private Grafica<Pareja<T, Pareja<Double, Double>>> grafica;
 
+    /**
+     * Crea una grafica dibujable a partir de la colección recibida como parámetro.
+     * @param coleccion Pares de elementos representando aristas de la gráfica.
+     */
     public DibujarGrafica(Coleccion<T> coleccion) {
         grafica = new Grafica<>();
         Iterator<T> iterador = coleccion.iterator();
@@ -29,11 +37,16 @@ public class DibujarGrafica<T> implements GraficableSVG {
         }
     }
 
+    /**
+     * Crea una representación en formato SVG de la gráfica y la imprime en la salida estándar.
+     */
     @Override
-    public void graficarSVG(double largo, double ancho) {
+    public void graficarSVG() {
+        double radioVertice = 15;
+        double diametroM = (grafica.getElementos() * radioVertice * 4.5) / Math.PI;
+        double largo = diametroM + radioVertice * 4;
+        double ancho = largo;
         SVG svg = new SVG(largo, ancho);
-        double diametroM = Math.min(largo - 20, ancho - 20);
-        double radioVertice = Math.min(15, Math.PI * diametroM / (grafica.getElementos() * 2.6));
         double angulo = (2 * Math.PI) / grafica.getElementos();
         int i = 0;
         for (Pareja<T, Pareja<Double, Double>> elemento : grafica) {

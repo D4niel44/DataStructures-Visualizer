@@ -1,5 +1,8 @@
 package mx.unam.ciencias.edd.proyecto2;
 
+/**
+ * Enumeración de los colores SVG.
+ */
 public enum ColorSVG {
     ROJO("red"),
     AZUL("blue"),

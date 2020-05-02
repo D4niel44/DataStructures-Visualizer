@@ -3,27 +3,38 @@ package mx.unam.ciencias.edd.proyecto2;
 import mx.unam.ciencias.edd.ArbolBinario;
 import mx.unam.ciencias.edd.VerticeArbolBinario;
 
+/**
+ * Clase para generar una representación en SVG de árboles binarios.
+ * @param <T> Tipo de la gráfica.
+ */
 public abstract class DibujarArbolBinario<T> implements GraficableSVG {
 
     protected ArbolBinario<T> arbolBinario;
 
+    /**
+     * Crea un nuevo arbol binario dibujable.
+     * @param arbol Arbol Binario a graficar
+     */
     public DibujarArbolBinario(ArbolBinario<T> arbol) {
         arbolBinario = arbol;
     }
 
+    /**
+     * Genera un SVG del arbol Binario.
+     */
     @Override
     public void graficarSVG() {
         if (arbolBinario.esVacia())
             return;
         double diametro = 30;
         double largo = diametro * arbolBinario.getElementos() * 2;
-        double ancho = diametro * (arbolBinario.getElementos() + 2) * 2;
-        //double diametro = Math.min(ancho / (2 * arbolBinario.getElementos() + 2), largo / (2 * altura + 2));
+        double ancho = diametro * (arbolBinario.getElementos() + 2);
         SVG svg = new SVG(largo, ancho);
         graficarAuxiliar(arbolBinario.raiz(), Pareja.crearPareja((ancho) / 2, diametro), svg, diametro / 2, ancho / 2);
         svg.imprimirSVG();
     }
 
+    /*Método auxiliar para graficar arboles binarios. */
     protected void graficarAuxiliar(VerticeArbolBinario<T> vertice, Pareja<Double, Double> puntoVertice, SVG svg,
             double radio, double incremento) {
         graficarAristas(vertice, puntoVertice, svg, radio, incremento);
@@ -31,6 +42,7 @@ public abstract class DibujarArbolBinario<T> implements GraficableSVG {
                 vertice.get().toString());
     }
 
+    /* Auxiliar para graficar las aristas de un vertice a sus hijos.*/
     protected void graficarAristas(VerticeArbolBinario<T> vertice, Pareja<Double, Double> puntoVertice, SVG svg,
             double radio, double incremento) {
         if (vertice.hayIzquierdo()) {
