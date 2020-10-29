@@ -1,61 +1,115 @@
 package mx.unam.ciencias.edd.proyecto2;
 
 import mx.unam.ciencias.edd.ArbolBinario;
+import mx.unam.ciencias.edd.Cola;
 import mx.unam.ciencias.edd.VerticeArbolBinario;
 
 /**
  * Clase para generar una representación en SVG de árboles binarios.
+ *
  * @param <T> Tipo de la gráfica.
  */
 public abstract class DibujarArbolBinario<T> implements GraficableSVG {
 
-    protected ArbolBinario<T> arbolBinario;
+  protected ArbolBinario<T> arbolBinario;
+  private final double diametro = 30;
 
-    /**
-     * Crea un nuevo arbol binario dibujable.
-     * @param arbol Arbol Binario a graficar
-     */
-    public DibujarArbolBinario(ArbolBinario<T> arbol) {
-        arbolBinario = arbol;
-    }
+  /**
+   * Crea un nuevo arbol binario dibujable.
+   *
+   * @param arbol Arbol Binario a graficar
+   * @throws IllegalArgumentException Si el arbol es nulo o no tiene elementos.
+   */
+  public DibujarArbolBinario(ArbolBinario<T> arbol) {
+    if (arbol == null || arbol.esVacia())
+      throw new IllegalArgumentException("El arbol no puede ser null y debe contener elementos.");
+    arbolBinario = arbol;
+  }
 
-    /**
-     * Genera un SVG del arbol Binario.
-     */
-    @Override
-    public void graficarSVG() {
-        if (arbolBinario.esVacia())
-            return;
-        double diametro = 30;
-        double largo = diametro * arbolBinario.getElementos() * 2;
-        double ancho = diametro * (arbolBinario.getElementos() + 2);
-        SVG svg = new SVG(largo, ancho);
-        graficarAuxiliar(arbolBinario.raiz(), Pareja.crearPareja((ancho) / 2, diametro), svg, diametro / 2, ancho / 2);
-        svg.imprimirSVG();
-    }
+  /** Imprime el SVG del árbol Binario en la salida Estándar. */
+  @Override
+  public void graficarSVG() {
+    generarSVG().imprimirSVG();
+  }
 
-    /*Método auxiliar para graficar arboles binarios. */
-    protected void graficarAuxiliar(VerticeArbolBinario<T> vertice, Pareja<Double, Double> puntoVertice, SVG svg,
-            double radio, double incremento) {
-        graficarAristas(vertice, puntoVertice, svg, radio, incremento);
-        svg.circuloConTexto(puntoVertice, radio, ColorSVG.NEGRO, ColorSVG.BLANCO, ColorSVG.NEGRO,
-                vertice.get().toString());
-    }
+  /* genera un SVG del arbol Binario */
+  private SVG generarSVG() {
+    double largo = (diametro * arbolBinario.altura() * 3);
+    double ancho = diametro * (arbolBinario.getElementos() + 2);
+    SVG svg = new SVG(largo, ancho);
+    double anchoRaiz = obtenerElementosSubArbolIZquierdo(arbolBinario.raiz()) * diametro;
+    graficarAuxiliar(
+        arbolBinario.raiz(), Pareja.crearPareja(anchoRaiz, diametro), svg, diametro / 2, anchoRaiz);
+    return svg;
+  }
 
-    /* Auxiliar para graficar las aristas de un vertice a sus hijos.*/
-    protected void graficarAristas(VerticeArbolBinario<T> vertice, Pareja<Double, Double> puntoVertice, SVG svg,
-            double radio, double incremento) {
-        if (vertice.hayIzquierdo()) {
-            Pareja<Double, Double> izquierdo = Pareja.crearPareja(puntoVertice.getX() - (incremento / 2),
-                    puntoVertice.getY() + (radio * 4));
-            svg.linea(puntoVertice, izquierdo, ColorSVG.NEGRO);
-            graficarAuxiliar(vertice.izquierdo(), izquierdo, svg, radio, incremento / 2);
-        }
-        if (vertice.hayDerecho()) {
-            Pareja<Double, Double> derecho = Pareja.crearPareja(puntoVertice.getX() + incremento / 2,
-                    puntoVertice.getY() + (radio * 4));
-            svg.linea(puntoVertice, derecho, ColorSVG.NEGRO);
-            graficarAuxiliar(vertice.derecho(), derecho, svg, radio, incremento / 2);
-        }
+  /* Método auxiliar para graficar arboles binarios. */
+  protected void graficarAuxiliar(
+      VerticeArbolBinario<T> vertice,
+      Pareja<Double, Double> puntoVertice,
+      SVG svg,
+      double radio,
+      double incremento) {
+    graficarAristas(vertice, puntoVertice, svg, radio, incremento);
+    svg.circuloConTexto(
+        puntoVertice,
+        radio,
+        ColorSVG.NEGRO,
+        ColorSVG.BLANCO,
+        ColorSVG.NEGRO,
+        vertice.get().toString());
+  }
+
+  /* Auxiliar para graficar las aristas de un vertice a sus hijos. */
+  protected void graficarAristas(
+      VerticeArbolBinario<T> vertice,
+      Pareja<Double, Double> puntoVertice,
+      SVG svg,
+      double radio,
+      double incremento) {
+    if (vertice.hayIzquierdo()) {
+      VerticeArbolBinario<T> vIzquierdo = vertice.izquierdo();
+      double incrementoIzquierdo =
+          puntoVertice.getX() - obtenerElementosSubArbolDerecho(vIzquierdo) * diametro;
+      Pareja<Double, Double> izquierdo =
+          Pareja.crearPareja(incrementoIzquierdo, puntoVertice.getY() + (radio * 4));
+      svg.linea(puntoVertice, izquierdo, ColorSVG.NEGRO);
+      graficarAuxiliar(vIzquierdo, izquierdo, svg, radio, incrementoIzquierdo);
     }
+    if (vertice.hayDerecho()) {
+      VerticeArbolBinario<T> vDerecho = vertice.derecho();
+      double incrementoDerecho =
+          puntoVertice.getX() + obtenerElementosSubArbolIZquierdo(vDerecho) * diametro;
+      Pareja<Double, Double> derecho =
+          Pareja.crearPareja(incrementoDerecho, puntoVertice.getY() + (radio * 4));
+      svg.linea(puntoVertice, derecho, ColorSVG.NEGRO);
+      graficarAuxiliar(vDerecho, derecho, svg, radio, incrementoDerecho);
+    }
+  }
+
+  /* Cuenta el numero de elementos en el subarbol izquierdo del vertice */
+  protected int obtenerElementosSubArbolIZquierdo(VerticeArbolBinario<T> vertice) {
+    if (!vertice.hayIzquierdo()) return 1;
+    return obtenerNumeroElementos(vertice.izquierdo()) + 1;
+  }
+
+  /* Cuenta el numero de elementos en el subarbol derecho del vertice */
+  protected int obtenerElementosSubArbolDerecho(VerticeArbolBinario<T> vertice) {
+    if (!vertice.hayDerecho()) return 1;
+    return obtenerNumeroElementos(vertice.derecho()) + 1;
+  }
+
+  /* Cuenta el numero de vertices del subarbol que tiene como raíz al vertice. */
+  private int obtenerNumeroElementos(VerticeArbolBinario<T> vertice) {
+    Cola<VerticeArbolBinario<T>> cola = new Cola<>();
+    cola.mete(vertice);
+    int i = 0;
+    while (!cola.esVacia()) {
+      VerticeArbolBinario<T> v = cola.saca();
+      if (v.hayIzquierdo()) cola.mete(v.izquierdo());
+      if (v.hayDerecho()) cola.mete(v.derecho());
+      ++i;
+    }
+    return i;
+  }
 }
